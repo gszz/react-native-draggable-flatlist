@@ -137,19 +137,22 @@ function CellRendererComponent<T>(props: Props<T>) {
     if (!propsRef.current.enableLayoutAnimationExperimental) return;
     const tag = findNodeHandle(viewRef.current);
 
-    runOnUI((t: number | null, _layoutDisabled) => {
-      "worklet";
-      if (!t) return;
-      const config = global.LayoutAnimationRepository.configs[t];
-      if (config) stashConfig(t, config);
-      const stashedConfig = getStashedConfig(t);
-      if (_layoutDisabled) {
-        global.LayoutAnimationRepository.removeConfig(t);
-      } else if (stashedConfig) {
-        global.LayoutAnimationRepository.registerConfig(t, stashedConfig);
-      }
-    })(tag, layoutAnimationDisabled);
-  }, [layoutAnimationDisabled]);
+    // BEGIN GSZ comment out
+    //  related to https://github.com/computerjazz/react-native-draggable-flatlist/issues/498
+  //   runOnUI((t: number | null, _layoutDisabled) => {
+  //     "worklet";
+  //     if (!t) return;
+  //     const config = global.LayoutAnimationRepository.configs[t];
+  //     if (config) stashConfig(t, config);
+  //     const stashedConfig = getStashedConfig(t);
+  //     if (_layoutDisabled) {
+  //       global.LayoutAnimationRepository.removeConfig(t);
+  //     } else if (stashedConfig) {
+  //       global.LayoutAnimationRepository.registerConfig(t, stashedConfig);
+  //     }
+  //   })(tag, layoutAnimationDisabled);
+  // }, [layoutAnimationDisabled]);
+    // END GSZ comment out
 
   return (
     <Animated.View
